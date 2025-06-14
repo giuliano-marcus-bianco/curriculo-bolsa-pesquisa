@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo Interativo | Giuliano Marcus Bianco</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Sage & Sand -->
+    <!-- Application Structure Plan: The SPA is designed as a personal dashboard to present the CV's content. It starts with a strong hero section stating the candidate's value proposition. It's followed by an interactive skills overview, a chronological timeline integrating experience and education, a filterable project portfolio, and a visual skills chart. This structure was chosen to guide the recruiter through a narrative: from who the candidate is, what he can do, where he's been, what he's built, and how proficient he is with key tools. This is more engaging and informative than a linear document. -->
+    <!-- Visualization & Content Choices: 
+    - Key Competencies: Report Info -> 4 key skill areas. Goal -> Organize/Inform. Viz -> Interactive cards with icons. Interaction -> Click to highlight relevant sections. Justification -> Visually breaks down core strengths. Library -> HTML/CSS/JS.
+    - Experience/Education: Report Info -> Job and academic history. Goal -> Show Change/Progression. Viz -> Vertical timeline. Interaction -> Items are distinct visual blocks. Justification -> Tells a chronological story of growth. Library -> HTML/CSS.
+    - Projects: Report Info -> Table of projects. Goal -> Organize/Showcase. Viz -> Filterable card gallery. Interaction -> Click tech tags to filter projects. Justification -> Allows recruiter to focus on skills they care about. Library -> HTML/CSS/JS.
+    - Technical Skills: Report Info -> List of languages/tools. Goal -> Compare/Inform. Viz -> Radar Chart. Interaction -> Tooltips on hover. Justification -> Provides a quick, quantitative visual summary of tool proficiency. Library -> Chart.js. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f5f2; /* Warm Neutral Background */
+            color: #333d29; /* Dark Green/Brown Text */
+        }
+        .accent-bg { background-color: #656d4a; } /* Muted Green */
+        .accent-text { color: #656d4a; }
+        .accent-border { border-color: #656d4a; }
+        .secondary-bg { background-color: #a4ac86; } /* Lighter Muted Green */
+        .secondary-text { color: #a4ac86; }
+        .highlight-section {
+            transition: all 0.3s ease-in-out;
+            border: 2px solid #656d4a;
+            box-shadow: 0 0 20px rgba(101, 109, 74, 0.3);
+            transform: scale(1.01);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .tech-tag {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .project-card, .certification-card {
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+        .project-card:hover, .certification-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        code {
+            background-color: #e8e6e3;
+            color: #656d4a;
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <!-- Header Section -->
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">Giuliano Marcus Bianco</h1>
+            <p class="mt-3 text-lg text-slate-700">Aluno de Análise e Desenvolvimento de Sistemas – IFSC</p>
+            <div id="objetivo" class="mt-6 max-w-3xl mx-auto bg-white/60 p-6 rounded-xl shadow-sm">
+                <h2 class="text-lg font-semibold accent-text">Objetivo</h2>
+                <p class="mt-2 text-slate-800">
+                    Candidato à bolsa de pesquisa no projeto <strong class="accent-text">“Análise de sistemas multiagentes com IA generativa para suporte operacional e comercial no setor elétrico brasileiro”</strong>, uma parceria do IFSC com a <strong class="accent-text">Enpower Consultoria Ltda</strong>. Busco aplicar minha experiência em todo o ciclo de vida de dados e meu conhecimento em IA Generativa para contribuir com os objetivos de pesquisa do Prof. Arliones Stevert Hoeller Junior e da equipe.
+                </p>
+            </div>
+            <div class="mt-8 flex justify-center gap-4">
+                <a href="mailto:giulianomarcusbianco@gmail.com" class="accent-bg text-white font-medium py-2 px-4 rounded-lg shadow hover:opacity-90 transition-opacity">Entrar em Contato</a>
+                <a href="https://www.linkedin.com/in/giuliano-marcus-bianco/" target="_blank" class="text-gray-600 hover:accent-text transition-colors w-10 h-10 flex items-center justify-center rounded-full bg-white shadow">
+                    <span class="font-bold text-lg">in</span>
+                </a>
+                <a href="https://github.com/giuliano-marcus-bianco" target="_blank" class="text-gray-600 hover:accent-text transition-colors w-10 h-10 flex items-center justify-center rounded-full bg-white shadow">
+                    <span class="font-bold text-lg">&lt;/&gt;</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Competencies Section -->
+        <section id="competencias" class="mb-16 p-4 rounded-xl">
+            <h2 class="text-3xl font-bold text-center mb-8 text-slate-900">Competências Chave</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="competency-card bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer" data-target="ia-generativa">
+                    <div class="accent-bg text-white rounded-full w-12 h-12 flex items-center justify-center mb-4 text-2xl">
+                        <span>&#x1F4E6;</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800">Modelos Fundacionais & IA Generativa</h3>
+                    <p class="mt-2 text-sm text-slate-600">Compreensão da arquitetura de Transformers e LLMs, com experiência prática em <code>Transformers</code>.</p>
+                </div>
+                <div class="competency-card bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer" data-target="analise-dados">
+                    <div class="accent-bg text-white rounded-full w-12 h-12 flex items-center justify-center mb-4 text-2xl">
+                        <span>&#x1F4C8;</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800">Análise e Manipulação de Dados</h3>
+                    <p class="mt-2 text-sm text-slate-600">Proficiência em Python (<code>Pandas</code>, <code>Scikit-learn</code>) e SQL para o ciclo completo de vida dos dados.</p>
+                </div>
+                <div class="competency-card bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer" data-target="pesquisa-comunicacao">
+                    <div class="accent-bg text-white rounded-full w-12 h-12 flex items-center justify-center mb-4 text-2xl">
+                        <span>&#x1F4D6;</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800">Pesquisa e Controle Operacional</h3>
+                    <p class="mt-2 text-sm text-slate-600">Experiência em planejamento de escopo, cronogramas e orçamentos de projetos de pesquisa complexos.</p>
+                </div>
+                <div class="competency-card bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer" data-target="idiomas">
+                     <div class="accent-bg text-white rounded-full w-12 h-12 flex items-center justify-center mb-4 text-2xl">
+                       <span>&#x1F310;</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800">Idiomas</h3>
+                    <p class="mt-2 text-sm text-slate-600">Inglês fluente para leitura de artigos, documentação técnica e colaboração global.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Experience & Education Timeline -->
+        <section id="trajetoria" class="mb-16 p-4 rounded-xl">
+            <h2 class="text-3xl font-bold text-center mb-10 text-slate-900">Trajetória Profissional e Acadêmica</h2>
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute left-1/2 -ml-px w-0.5 h-full accent-bg opacity-30" aria-hidden="true"></div>
+                
+                <div class="relative mb-8 highlight-target" data-map="pesquisa-comunicacao analise-dados">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center accent-bg text-white z-10 text-2xl">
+                            <span>&#x1F4BC;</span>
+                        </div>
+                        <div class="ml-4 w-full">
+                            <div class="bg-white rounded-lg p-4 shadow-md">
+                                <p class="text-sm font-medium secondary-text">ago 2022 – presente</p>
+                                <h3 class="font-bold text-lg text-slate-800">Coordenador de Pesquisas / Pesquisador</h3>
+                                <p class="text-sm text-slate-600">Papel Social – Florianópolis, SC</p>
+                                <p class="mt-2 text-sm text-slate-700">Responsável pelo controle operacional de projetos, incluindo escrita de relatórios, planejamento de escopo de pesquisa, cronogramas e orçamentos para aprovação dos contratantes. Liderança de equipes de campo e uso de <strong>Python</strong> para análise e limpeza de dados.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative mb-8 highlight-target" data-map="pesquisa-comunicacao">
+                    <div class="flex items-center flex-row-reverse">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center secondary-bg text-white z-10 text-2xl">
+                           <span>&#x1F4BB;</span>
+                        </div>
+                         <div class="mr-4 w-full">
+                            <div class="bg-white rounded-lg p-4 shadow-md">
+                                <p class="text-sm font-medium secondary-text">Previsão: dez 2026</p>
+                                <h3 class="font-bold text-lg text-slate-800">Tecnólogo em Análise e Desenvolvimento de Sistemas</h3>
+                                <p class="text-sm text-slate-600">IFSC – Instituto Federal de Santa Catarina</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative mb-8 highlight-target" data-map="pesquisa-comunicacao analise-dados">
+                    <a href="./assets/docs/Sistema Integrado de Gestão de Atividades Acadêmicas.pdf" target="_blank" class="block">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center accent-bg text-white z-10 text-2xl">
+                                <span>&#x1F4B9;</span>
+                            </div>
+                            <div class="ml-4 w-full">
+                                <div class="bg-white rounded-lg p-4 shadow-md project-card">
+                                    <h3 class="font-bold text-lg text-slate-800 flex items-center">Desempenho Acadêmico no IFSC <span class="text-slate-400 ml-2">&#x2197;</span></h3>
+                                    <div class="mt-2 flex justify-around text-center">
+                                        <div>
+                                            <p class="text-2xl font-bold accent-text">0.94</p>
+                                            <p class="text-xs text-slate-600">CAA</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-2xl font-bold accent-text">9.1429</p>
+                                            <p class="text-xs text-slate-600">IRA</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-2xl font-bold accent-text">9.4</p>
+                                            <p class="text-xs text-slate-600">IEA</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-2xl font-bold accent-text">1.0</p>
+                                            <p class="text-xs text-slate-600">IEPL</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                 <div class="relative mb-8 highlight-target" data-map="idiomas pesquisa-comunicacao">
+                    <div class="flex items-center flex-row-reverse">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center secondary-bg text-white z-10 text-2xl">
+                           <span>&#x1F393;</span>
+                        </div>
+                         <div class="mr-4 w-full">
+                            <div class="bg-white rounded-lg p-4 shadow-md">
+                                <h3 class="font-bold text-lg text-slate-800">Bacharelado e Intercâmbio</h3>
+                                <p class="text-sm text-slate-600">Universidade Federal de Santa Catarina & Linköping University, Suécia</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projetos" class="mb-16 p-4 rounded-xl">
+             <h2 class="text-3xl font-bold text-center mb-2 text-slate-900">Projetos de Dados e IA</h2>
+             <div class="flex justify-center items-center gap-2 mb-8 text-sm text-slate-600 flex-wrap" id="project-filters">
+                <button class="tech-tag bg-white font-medium py-1 px-3 rounded-full shadow-sm" data-tech="all">Todos</button>
+             </div>
+             <div id="project-gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 highlight-target" data-map="ia-generativa analise-dados">
+                <!-- Project cards will be injected here by JS -->
+             </div>
+        </section>
+
+        <!-- Skills Chart & Certifications -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div id="skills-chart" class="p-4 rounded-xl highlight-target" data-map="ia-generativa analise-dados">
+                <h2 class="text-3xl font-bold text-center mb-8 text-slate-900">Visualização de Habilidades</h2>
+                <div class="chart-container bg-white p-4 rounded-lg shadow-md">
+                    <canvas id="skillsRadarChart"></canvas>
+                </div>
+            </div>
+
+            <div id="certificacoes" class="p-4 rounded-xl highlight-target" data-map="ia-generativa analise-dados pesquisa-comunicacao">
+                <h2 class="text-3xl font-bold text-center mb-8 text-slate-900">Certificações Selecionadas</h2>
+                <ul id="certifications-list" class="space-y-4">
+                    <!-- Certifications will be injected here by JS -->
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        // --- Data ---
+        const projectsData = [
+            {
+                title: "Classificação de Dados com Scikit-learn",
+                tech: ["Python", "Pandas", "Scikit-learn"],
+                relevance: "Construção de um pipeline de Machine Learning para avaliar o desempenho de classificadores, uma atividade-chave do projeto.",
+                url: "https://github.com/giuliano-marcus-bianco/EBAC_EmailChallengeDeDados"
+            },
+            {
+                title: "Modelagem de Banco de Dados",
+                tech: ["MySQL", "MongoDB", "EER"],
+                relevance: "Experiência em modelagem conceitual e lógica de bancos de dados para garantir a estruturação eficiente dos dados do projeto.",
+                url: "https://github.com/giuliano-marcus-bianco/DIO-Database-Experience"
+            },
+            {
+                title: "Consumo de API com JavaScript",
+                tech: ["JavaScript", "HTML/CSS", "REST API"],
+                relevance: "Demonstra habilidade em integrar soluções com APIs externas, fundamental para o uso de modelos de IA e serviços de dados.",
+                url: "https://github.com/giuliano-marcus-bianco/DIO_Orange-Tech_Pokedex"
+            }
+        ];
+
+        const certificationsData = [
+            { name: "Fundamentals of Agents", issuer: "Hugging Face", url: "https://cdn-uploads.huggingface.co/production/uploads/noauth/FgwFwz651e_g-rP_QODNb.webp" },
+            { name: "How Transformer LLMs Work", issuer: "DeepLearning.AI", url: "https://learn.deeplearning.ai/accomplishments/3b48a8a3-7c58-476e-b0db-5ffc01af6190?usp=sharing" },
+            { name: "Dominando o Python Para Ciência de Dados", issuer: "DIO", url: "https://www.dio.me/certificate/70EBF915/share" },
+            { name: "Análise de Dados Reais com Python", issuer: "EBAC", url: "https://lms.ebaconline.com.br/certs/validate/34544-81954-95333-04113" },
+            { name: "Fundamentos de Python Para Análise de Dados", issuer: "DIO", url: "https://www.dio.me/certificate/15480A05/share" },
+            { name: "Scrum Fundamentals Certified", issuer: "SCRUMstudy", url: "https://c46e136a583f7e334124-ac22991740ab4ff17e21daf2ed577041.ssl.cf1.rackcdn.com/Certificate/ScrumFundamentalsCertified-GiulianoBianco-934859.pdf" },
+            { name: "Bootcamp - Database Experience", issuer: "DIO", url: "https://www.dio.me/certificate/42F62FEB" },
+            { name: "Python for Finance", issuer: "Sololearn", url: "https://www.sololearn.com/certificates/CT-ZBYWMIKD" },
+            { name: "Responsive Web Design", issuer: "freeCodeCamp", url: "https://freecodecamp.org/certification/giuliano_bianco/responsive-web-design" },
+        ];
+
+
+        // --- Render Certifications ---
+        const certsList = document.getElementById('certifications-list');
+        certificationsData.forEach(cert => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <a href="${cert.url}" target="_blank" rel="noopener noreferrer" class="certification-card bg-white p-4 rounded-lg shadow-sm flex items-center gap-4">
+                    <div class="secondary-bg text-white p-2 rounded-full flex items-center justify-center w-8 h-8 text-xl"><span>&#x1F4DC;</span></div>
+                    <div class="flex-grow">
+                        <h4 class="font-bold text-slate-800">${cert.name}</h4>
+                        <p class="text-sm text-slate-600">${cert.issuer}</p>
+                    </div>
+                    <span class="text-slate-400">&#x2197;</span>
+                </a>
+            `;
+            certsList.appendChild(listItem);
+        });
+
+
+        // --- Project Gallery & Filtering ---
+        const gallery = document.getElementById('project-gallery');
+        const filtersContainer = document.getElementById('project-filters');
+        let allTechs = new Set();
+        projectsData.forEach(p => p.tech.forEach(t => allTechs.add(t)));
+
+        Array.from(allTechs).sort().forEach(tech => {
+            const button = document.createElement('button');
+            button.className = "tech-tag bg-white font-medium py-1 px-3 rounded-full shadow-sm";
+            button.textContent = tech;
+            button.dataset.tech = tech;
+            filtersContainer.appendChild(button);
+        });
+        
+        const renderProjects = (filter = 'all') => {
+            gallery.innerHTML = '';
+            const filteredProjects = filter === 'all' 
+                ? projectsData 
+                : projectsData.filter(p => p.tech.includes(filter));
+            
+            filteredProjects.forEach(project => {
+                const cardLink = document.createElement('a');
+                cardLink.href = project.url;
+                cardLink.target = "_blank";
+                cardLink.className = "project-card bg-white p-6 rounded-lg shadow-md flex flex-col";
+                
+                let tagsHtml = project.tech.map(t => `<span class="bg-slate-100 text-slate-600 text-xs font-medium mr-2 mb-2 px-2.5 py-0.5 rounded-full">${t}</span>`).join('');
+
+                cardLink.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-lg text-slate-800 mb-2">${project.title}</h3>
+                        <span class="text-slate-400">&#x2197;</span>
+                    </div>
+                    <div class="flex flex-wrap mb-3">${tagsHtml}</div>
+                    <p class="text-sm text-slate-700 flex-grow">${project.relevance}</p>
+                `;
+                gallery.appendChild(cardLink);
+            });
+        };
+
+        filtersContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('tech-tag')) {
+                const filter = e.target.dataset.tech;
+                renderProjects(filter);
+                document.querySelectorAll('#project-filters .tech-tag').forEach(btn => {
+                    btn.classList.remove('accent-bg', 'text-white');
+                    btn.classList.add('bg-white');
+                });
+                e.target.classList.add('accent-bg', 'text-white');
+                e.target.classList.remove('bg-white');
+            }
+        });
+
+        // --- Competency Card Highlighting ---
+        document.querySelectorAll('.competency-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const targetId = card.dataset.target;
+                
+                document.querySelectorAll('.highlight-target').forEach(section => {
+                    if (section.dataset.map && section.dataset.map.includes(targetId)) {
+                        section.classList.add('highlight-section');
+                    } else {
+                        section.classList.remove('highlight-section');
+                    }
+                });
+
+                setTimeout(() => {
+                    document.querySelectorAll('.highlight-section').forEach(s => s.classList.remove('highlight-section'));
+                }, 2500);
+            });
+        });
+
+
+        // --- Skills Radar Chart ---
+        const ctx = document.getElementById('skillsRadarChart').getContext('2d');
+        const skillsChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Python', 'SQL', 'Análise de Dados', 'Machine Learning', 'IA Generativa', 'Comunicação'],
+                datasets: [{
+                    label: 'Nível de Proficiência',
+                    data: [9, 8, 9, 7, 8, 10], // Subjective ratings 1-10
+                    backgroundColor: 'rgba(164, 172, 134, 0.2)', // secondary-bg
+                    borderColor: 'rgba(101, 109, 74, 1)', // accent-bg
+                    pointBackgroundColor: '#656d4a',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#656d4a'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(51, 61, 41, 0.2)' },
+                        grid: { color: 'rgba(51, 61, 41, 0.2)' },
+                        pointLabels: {
+                            font: {
+                                size: 12,
+                                family: 'Inter'
+                            },
+                            color: '#333d29'
+                        },
+                        ticks: {
+                            color: '#a4ac86',
+                            backdropColor: '#f8f5f2',
+                            stepSize: 2,
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Initial render
+        renderProjects();
+        document.querySelector('#project-filters .tech-tag[data-tech="all"]').classList.add('accent-bg', 'text-white');
+        document.querySelector('#project-filters .tech-tag[data-tech="all"]').classList.remove('bg-white');
+    });
+</script>
+
+</body>
+</html>
